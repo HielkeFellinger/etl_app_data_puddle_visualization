@@ -1,7 +1,7 @@
 
 ## Dash PoC + Data Puddle
 
-PoC. An attempt to create a mini "Datalake" Architecture for data collection and visualisation. 
+PoC. An attempt to create a mini "Datalake" (Data-puddle), data collection and visualisation Architecture. 
 
 - TimescaleDB
 - Grafana
