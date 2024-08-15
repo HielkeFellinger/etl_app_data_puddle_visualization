@@ -1,0 +1,314 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 5,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "links": [
+        {
+          "title": "",
+          "url": "http://localhost:8011/d/dduu6e8y5kk5cb/quality2?${organisation:queryparam}&${__url_time_range}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  count(s) as \"Count\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'\n  AND s.service_type = 'HOSTING'",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Quality",
+      "type": "stat"
+    },
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 3,
+      "links": [
+        {
+          "title": "",
+          "url": "http://localhost:8011/d/aabb6e8y5kk5cc/security?${organisation:queryparam}&${__url_time_range}"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  count(s) as \"Count\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'\n  AND s.service_type = 'HOSTING'",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Security",
+      "type": "stat"
+    },
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 0,
+        "y": 6
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  s.name as \"name\",\n  s.description as \"description\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Services",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Customer-1",
+          "value": "Customer-1"
+        },
+        "datasource": "mytimescaledb",
+        "definition": "SELECT\n  o.name as \"Name\"\nFROM organisation o\nINNER JOIN contract c on c.organisation_id = o.id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\nGROUP BY o.name",
+        "description": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Organisations",
+        "multi": false,
+        "name": "organisation",
+        "options": [],
+        "query": "SELECT\n  o.name as \"Name\"\nFROM organisation o\nINNER JOIN contract c on c.organisation_id = o.id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\nGROUP BY o.name",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Organisation Details",
+  "uid": "cduubqx18y680b",
+  "version": 4,
+  "weekStart": ""
+}

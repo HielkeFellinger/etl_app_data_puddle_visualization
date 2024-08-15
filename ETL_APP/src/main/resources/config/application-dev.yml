@@ -1,0 +1,20 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    root: info
+
+etl:
+  sensors:
+    - "SONAR_COVERAGE,Coverage,%,QUALITY"
+    - "SONAR_SCORE,Overall Gate Score,,QUALITY"
+    - "SONAR_LOC,Lines Of Code,,QUALITY"
+    - "RISC_SCORE,The Risc Score,,SECURITY"
+    - "UPTIME,uptime,h,SECURITY"
+    - "OPEN_ISSUES,Open Issues,,ITSM"
+    - "SUPPORT_HOURS,Support Hours,,ITSM"

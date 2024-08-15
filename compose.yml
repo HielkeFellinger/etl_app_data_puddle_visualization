@@ -1,0 +1,38 @@
+version: '2'
+
+networks:
+  timescaledb:
+  grafana:
+
+services:
+  timescaledb:
+    hostname: timescaledb
+    image: timescale/timescaledb:latest-pg15
+    command: postgres -c shared_preload_libraries=timescaledb
+    networks:
+      - timescaledb
+      - grafana
+    ports:
+      - "8010:5432"
+    environment:
+      - PGDATA=/var/lib/postgresql/data/timescaledb
+      - POSTGRES_DB=DASH_DB
+      - POSTGRES_USER=DASH_DB
+      - POSTGRES_PASSWORD=DASH_DB
+
+  grafana:
+    hostname: grafana
+    image: grafana/grafana:11.1.2
+    networks:
+      - grafana
+      - timescaledb
+    ports:
+      - "8011:3000"
+    depends_on:
+      - timescaledb
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/

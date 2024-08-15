@@ -1,0 +1,279 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 7,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 7
+              },
+              {
+                "color": "orange",
+                "value": 8
+              },
+              {
+                "color": "red",
+                "value": 9
+              },
+              {
+                "color": "dark-red",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  $__timeGroup(s.time, '5m') as \"Time\",\n  avg(s.value) as \"Value\"\nFROM sensor_data s\nINNER JOIN service sv on s.service_id = sv.id\nWHERE s.sensor_name = 'RISC_SCORE'\n  AND $__timeFilter(time)\n  AND sv.name IN ($services)\nGROUP BY \"Time\"",
+          "refId": "Risc",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "8aa98ab9-4567-489a-bcde-f19152cfec3e",
+                  "properties": {
+                    "fieldSrc": "field",
+                    "value": [],
+                    "valueSrc": []
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "ab9b9a98-0123-4456-b89a-b19152c24552",
+              "type": "group"
+            }
+          }
+        }
+      ],
+      "title": "Risc Score",
+      "type": "stat"
+    },
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "d"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  $__timeGroup(s.time, '5m') as \"Time\",\n  avg(s.value) as \"Value\"\nFROM sensor_data s\nINNER JOIN service sv on s.service_id = sv.id\nWHERE s.sensor_name = 'UPTIME'\n  AND $__timeFilter(time)\n  AND sv.name IN ($services)\nGROUP BY \"Time\"",
+          "refId": "LOC",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Uptime",
+      "type": "stat"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Customer-1",
+          "value": "Customer-1"
+        },
+        "datasource": "mytimescaledb",
+        "definition": "SELECT\n  o.name as \"Name\"\nFROM organisation o\nINNER JOIN contract c on c.organisation_id = o.id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\nGROUP BY o.name",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Organisation",
+        "multi": false,
+        "name": "organisation",
+        "options": [],
+        "query": "SELECT\n  o.name as \"Name\"\nFROM organisation o\nINNER JOIN contract c on c.organisation_id = o.id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\nGROUP BY o.name",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "Service K1 APP - FE"
+          ],
+          "value": [
+            "Service K1 APP - FE"
+          ]
+        },
+        "datasource": "mytimescaledb",
+        "definition": "SELECT\n  s.name as \"name\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'\n  AND s.service_type = 'HOSTING'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Service",
+        "multi": true,
+        "name": "services",
+        "options": [],
+        "query": "SELECT\n  s.name as \"name\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'\n  AND s.service_type = 'HOSTING'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Security",
+  "uid": "aabb6e8y5kk5cc",
+  "version": 2,
+  "weekStart": ""
+}

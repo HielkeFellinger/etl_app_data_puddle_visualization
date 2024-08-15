@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: centraal-ticket-overzicht
+  profiles:
+    active: #spring.profiles.active#
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:8010/DASH_DB
+    username: DASH_DB
+    password: DASH_DB
+  liquibase:
+    change-log: classpath:db/changelog/db-changelog.xml
+
+project:
+  version: #project.version#
+
+server:
+  port: 8080
+
+etl:
+  sensors: []

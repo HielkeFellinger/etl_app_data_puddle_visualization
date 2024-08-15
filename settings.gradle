@@ -1,0 +1,12 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://repo.spring.io/milestone' }
+        gradlePluginPortal()
+    }
+    plugins {
+        id 'org.springframework.boot' version "${springBootVersion}"
+        id 'org.sonarqube' version "${sonarqubePluginVersion}"
+    }
+}
+
+include('ETL_APP')

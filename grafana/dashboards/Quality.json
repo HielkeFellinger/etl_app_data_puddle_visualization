@@ -1,0 +1,370 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 4,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "light-red",
+                "value": 40
+              },
+              {
+                "color": "#EF843C",
+                "value": 60
+              },
+              {
+                "color": "#EAB839",
+                "value": 70
+              },
+              {
+                "color": "green",
+                "value": 80
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 90
+              },
+              {
+                "color": "dark-green",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  $__timeGroup(s.time, '5m') as \"Time\",\n  avg(s.value) as \"Value\"\nFROM sensor_data s\nINNER JOIN service sv on s.service_id = sv.id\nWHERE s.sensor_name = 'SONAR_COVERAGE'\n  AND $__timeFilter(time)\n  AND sv.name IN ($services)\nGROUP BY \"Time\"",
+          "refId": "Coverage",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "8aa98ab9-4567-489a-bcde-f19152cfec3e",
+                  "properties": {
+                    "fieldSrc": "field",
+                    "value": [],
+                    "valueSrc": []
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "ab9b9a98-0123-4456-b89a-b19152c24552",
+              "type": "group"
+            }
+          }
+        }
+      ],
+      "title": "Coverage",
+      "type": "stat"
+    },
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  $__timeGroup(s.time, '5m') as \"Time\",\n  avg(s.value) as \"Value\"\nFROM sensor_data s\nINNER JOIN service sv on s.service_id = sv.id\nWHERE s.sensor_name = 'SONAR_LOC'\n  AND $__timeFilter(time)\n  AND sv.name IN ($services)\nGROUP BY \"Time\"",
+          "refId": "LOC",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "LOC",
+      "type": "stat"
+    },
+    {
+      "datasource": "mytimescaledb",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 6
+              },
+              {
+                "color": "green",
+                "value": 8
+              },
+              {
+                "color": "dark-green",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.1.2",
+      "targets": [
+        {
+          "datasource": "mytimescaledb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  $__timeGroup(s.time, '5m') as \"Time\",\n  avg(s.value) as \"Value\"\nFROM sensor_data s\nINNER JOIN service sv on s.service_id = sv.id\nWHERE s.sensor_name = 'SONAR_SCORE'\n  AND $__timeFilter(time)\n  AND sv.name IN ($services)\nGROUP BY \"Time\"",
+          "refId": "SCORE",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Score",
+      "type": "stat"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Customer-1",
+          "value": "Customer-1"
+        },
+        "datasource": "mytimescaledb",
+        "definition": "SELECT\n  o.name as \"Name\"\nFROM organisation o\nINNER JOIN contract c on c.organisation_id = o.id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\nGROUP BY o.name",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Organisation",
+        "multi": false,
+        "name": "organisation",
+        "options": [],
+        "query": "SELECT\n  o.name as \"Name\"\nFROM organisation o\nINNER JOIN contract c on c.organisation_id = o.id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\nGROUP BY o.name",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "Service K1 APP - FE"
+          ],
+          "value": [
+            "Service K1 APP - FE"
+          ]
+        },
+        "datasource": "mytimescaledb",
+        "definition": "SELECT\n  s.name as \"name\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'\n  AND s.service_type = 'HOSTING'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Service",
+        "multi": true,
+        "name": "services",
+        "options": [],
+        "query": "SELECT\n  s.name as \"name\"\nFROM service s\nINNER JOIN contract c on s.contract_id = c.id\nINNER JOIN organisation o on o.id = c.organisation_id\nWHERE c.start_time < $__timeTo() \n  AND (c.stop_time IS NULL OR c.stop_time > $__timeFrom())\n  AND o.name LIKE '$organisation'\n  AND s.service_type = 'HOSTING'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Quality",
+  "uid": "dduu6e8y5kk5cb",
+  "version": 9,
+  "weekStart": ""
+}

@@ -1,0 +1,10 @@
+# Project
+
+# Tools
+.gradle
+.idea
+build
+
+# Generation
+logs
+**/logs
